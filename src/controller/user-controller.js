@@ -1,4 +1,4 @@
-import createUserSchema from "../validations/create-user-schema.js"
+import createUserSchema from "../validations/user-schema.js"
 import { UserModel } from "../model/user-model.js"
 
 
@@ -8,7 +8,7 @@ const createUser = async (req, res) => {
         await createUserSchema.validate({ userEmail, userPassword })
         const userModel = new UserModel()
         const user = await userModel.getUserByEmail(userEmail);
-        if (user.length != 0) {
+        if (user) {
             return res.status(401).json({ "Message": "Ja possuimos cadastro com esse e-mail, deseja recuperar seu cadastro?" })
         }
         const userCreated = await userModel.insertUser(userEmail, userPassword)
