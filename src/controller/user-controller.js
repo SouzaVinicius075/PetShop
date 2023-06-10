@@ -21,5 +21,8 @@ const createUser = async (req, res) => {
         return res.status(500).json({ "Message": error })
     }
 }
+const updateUser = async (req, res) => {
 
-export default { createUser }
+}
+
+export default { createUser, updateUser }

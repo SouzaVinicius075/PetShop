@@ -10,6 +10,10 @@ export class UserModel {
         return user
 
     }
+    getUserById = async (id) => {
+        const user = await connection('users').where({ "id": id }).first()
+        return user
+    }
     insertUser = async (email, password) => {
         const passwordEncrypted = await bcrypt.hash(password, 10)
         const user = await connection("users")
