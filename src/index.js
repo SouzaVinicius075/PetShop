@@ -5,8 +5,8 @@ import loginRoute from "./routes/login-route.js"
 const app = express();
 
 app.use(express.json());
-app.use(clientRoutes)
-app.use(loginRoute)
+app.use("/login", loginRoute)
+app.use("/user", clientRoutes)
 
 
 app.listen(process.env.SERVER_PORT, () => {

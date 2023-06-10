@@ -1,4 +1,3 @@
-
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../model/user-model.js'
 
@@ -13,11 +12,10 @@ const validacaoToken = async (req, res, next) => {
         const { id } = jwt.verify(token, process.env.PASSWORDJWT);
         const userModel = new UserModel()
 
-        const identificacaoUsuario = userModel.getUserById(id);
+        const identificacaoUsuario = await userModel.getUserById(id);
         if (!identificacaoUsuario) {
             return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
         }
-
         let { senha, ...usuario } = identificacaoUsuario;
         req.usuario = usuario;
 
