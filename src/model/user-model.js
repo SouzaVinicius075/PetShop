@@ -28,10 +28,7 @@ export class UserModel {
     }
     validateUser = async (email, password) => {
         const user = await this.getUserByEmail(email)
-        if (!user) {
-            return false
-        }
-        if (!(await bcrypt.compare(password, user.user_password))) {
+        if (!user || !(await bcrypt.compare(password, user.user_password))) {
             return false
         }
         const token = jwt.sign(
@@ -45,6 +42,14 @@ export class UserModel {
                 expiresIn: "2h"
             })
         return token
+    }
+    updateUserPassword = async (id, password) => {
+        const passwordEncrypted = await bcrypt.hash(password, 10)
+        const user = await connection('users').where({ "id": id }).update({ "user_password": passwordEncrypted }).returning('*')
+        if (!user) {
+            return false
+        }
+        return user
     }
 }
 
