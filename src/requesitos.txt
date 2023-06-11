@@ -1,0 +1,3 @@
+Criação de clientes
+    1 - Consulta no BD se ja há cliente cadastrado com a ID correspondente ao usuário logado
+    2 - Cadastro

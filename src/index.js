@@ -1,12 +1,14 @@
 import 'dotenv/config'
 import express from 'express'
-import clientRoutes from "./routes/user-routes.js"
+import userRoutes from "./routes/user-routes.js"
 import loginRoute from "./routes/login-route.js"
+import clientRoutes from "./routes/client-routes.js"
 const app = express();
 
 app.use(express.json());
 app.use("/login", loginRoute)
-app.use("/user", clientRoutes)
+app.use("/user", userRoutes)
+app.use("/client", clientRoutes)
 
 
 app.listen(process.env.SERVER_PORT, () => {

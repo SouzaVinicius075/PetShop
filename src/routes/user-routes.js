@@ -5,9 +5,10 @@ const routes = express.Router();
 
 routes.post("/create", userController.createUser);
 
-routes.use(validateToken.validacaoToken)
+routes.use(validateToken.validate)
 routes
     .patch("/update", userController.updateUser)
+    .delete("/delete", userController.deleteUser)
 
 
 export default routes;

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../model/user-model.js'
 
-const validacaoToken = async (req, res, next) => {
+const validate = async (req, res, next) => {
     const { authorization } = req.headers;
     if (!authorization) {
         return res.status(401).json({ mensagem: 'Usuário não autorizado!' });
@@ -12,12 +12,12 @@ const validacaoToken = async (req, res, next) => {
         const { id } = jwt.verify(token, process.env.PASSWORDJWT);
         const userModel = new UserModel()
 
-        const identificacaoUsuario = await userModel.getUserById(id);
-        if (!identificacaoUsuario) {
+        const userLogged = await userModel.getUserById(id);
+        if (!userLogged) {
             return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
         }
-        let { senha, ...usuario } = identificacaoUsuario;
-        req.usuario = usuario;
+        let { user_password, ...user } = userLogged;
+        req.user = user;
 
         next();
     } catch (error) {
@@ -30,5 +30,5 @@ const validacaoToken = async (req, res, next) => {
 };
 
 export default {
-    validacaoToken
+    validate
 };

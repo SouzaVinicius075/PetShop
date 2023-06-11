@@ -15,6 +15,9 @@ export class UserModel {
         return user
     }
     insertUser = async (email, password) => {
+        if (await this.getUserByEmail(email)) {
+            return false
+        }
         const passwordEncrypted = await bcrypt.hash(password, 10)
         const user = await connection("users")
             .insert({
@@ -50,6 +53,13 @@ export class UserModel {
             return false
         }
         return user
+    }
+    deleteUser = async (id) => {
+        const user = await this.getUserById(id)
+        if (!user) {
+            return false
+        }
+        await connection("users").where({ "id": user.id }).del().returning('*')
     }
 }
 
