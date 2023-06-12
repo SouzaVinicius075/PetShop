@@ -3,7 +3,7 @@ import { UserModel } from "../model/user-model.js"
 
 
 const createUser = async (req, res) => {
-    const { userEmail, userPassword } = req.body
+    const { userEmail, userPassword, userRole } = req.body
     try {
         await createUserSchema.validate({ userEmail, userPassword })
         const userModel = new UserModel()
@@ -11,7 +11,7 @@ const createUser = async (req, res) => {
         if (user) {
             return res.status(401).json({ "Message": "Ja possuimos cadastro com esse e-mail, deseja recuperar seu cadastro?" })
         }
-        const userCreated = await userModel.insertUser(userEmail, userPassword)
+        const userCreated = await userModel.insertUser(userEmail, userPassword, userRole)
         if (!userCreated) {
             return res.status(500).json({ "Message": "Problema não identificado no cadastro do usuário" })
         }
