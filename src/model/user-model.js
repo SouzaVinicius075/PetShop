@@ -14,7 +14,8 @@ export class UserModel {
         const user = await connection('users').where({ "id": id }).first()
         return user
     }
-    insertUser = async (email, password) => {
+    insertUser = async (email, password, _userRole) => {
+        const role = _userRole || "user"
         if (await this.getUserByEmail(email)) {
             return false
         }
@@ -23,7 +24,7 @@ export class UserModel {
             .insert({
                 "user_email": email,
                 "user_password": passwordEncrypted,
-                "user_role": "user"
+                "user_role": role
             })
             .returning('*')
         return user

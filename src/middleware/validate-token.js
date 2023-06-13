@@ -28,7 +28,17 @@ const validate = async (req, res, next) => {
         });
     }
 };
+const isAdminUser = async (req, res, next) => {
+    const { user_role } = req.user;
+    if (user_role == "user") {
+        return res.status(401).json({
+            "mensagem":
+                'O usuário não possui a autorização necessária para acessar este recurso.',
+        });
+    }
+    next();
+}
 
 export default {
-    validate
+    validate, isAdminUser
 };
